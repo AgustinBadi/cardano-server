@@ -80,6 +80,7 @@ idleQueue st = do
         enoughTimePassed = delta > 3000
         firstTime        = delta < 30
     when (enoughTimePassed || firstTime) $ logMsg "No new inputs to process."
+    waitTime 10
     checkForCleanUtxos
     serverIdle
     pure $ if enoughTimePassed then ct else st
