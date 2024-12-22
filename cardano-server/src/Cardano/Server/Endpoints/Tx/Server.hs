@@ -64,7 +64,7 @@ processQueue env = runServerM env $ setLoggerFilePath "queue.log" $ do
     where
         neverFall ma = catch ma $ \(err :: SomeException) -> do
             logSmth err
-            waitTime 20
+            waitTime 3
             neverFall ma
         go = liftIO getCurrentTime >>= checkQueue
         checkQueue t = do
@@ -78,7 +78,7 @@ idleQueue st = do
     ct <- liftIO getCurrentTime
     let delta = Time.diffUTCTime ct st
         enoughTimePassed = delta > 300
-        firstTime        = delta < 3
+        firstTime        = delta < 30
     when (enoughTimePassed || firstTime) $ logMsg "No new inputs to process."
     checkForCleanUtxos
     serverIdle
