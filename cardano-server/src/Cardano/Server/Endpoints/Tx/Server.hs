@@ -77,8 +77,8 @@ idleQueue :: Time.UTCTime -> ServerM api Time.UTCTime
 idleQueue st = do
     ct <- liftIO getCurrentTime
     let delta = Time.diffUTCTime ct st
-        enoughTimePassed = delta > 3000
-        firstTime        = delta < 30
+        enoughTimePassed = delta > 300
+        firstTime        = delta < 3
     when (enoughTimePassed || firstTime) $ logMsg "No new inputs to process."
     waitTime 10
     checkForCleanUtxos
